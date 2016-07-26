@@ -1,0 +1,14 @@
+---
+- name: update packages
+  apt: update_cache=yes
+
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+  - vim
+  - nload
+  - python-pip
+  - htop

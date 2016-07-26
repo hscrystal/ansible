@@ -1,0 +1,25 @@
+---
+- name: Add Docker signing key
+  apt_key:
+    keyserver: hkp://p80.pool.sks-keyservers.net:80
+    id: 58118E89F3A912897C070ADBF76221572C52609D
+
+- name: Adding sources.list.d deb url for Docker
+  apt_repository:
+    repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+    filename: nginx
+    update_cache: yes
+
+- name: Uninstall old Docker
+  apt:
+    name: lxc-docker
+    purge: yes
+  failed_when: no
+
+- name: Install Docker
+  apt:
+    name: docker-engine
+
+- name: Install Docker Compose
+  pip:
+    name: docker-compose
