@@ -12,3 +12,5 @@
   - nload
   - python-pip
   - htop
+  - munin-node
+  - zip
