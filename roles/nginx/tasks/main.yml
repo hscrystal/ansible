@@ -18,3 +18,18 @@
     force: yes
     update_cache: yes
   notify: restart nginx
+
+- name: Create file config proxy_params
+  file:
+    path: /etc/nginx/proxy_params
+    state: touch
+
+- name: Add config file proxy_params
+  lineinfile: 
+    dest: /etc/nginx/proxy_param
+    line: "{{ item }}"
+  with_items:
+    - 'proxy_set_header Host $http_host;'
+    - 'proxy_set_header X-Real-IP $remote_addr;'
+    - 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;'
+    - 'proxy_set_header X-Forwarded-Proto $scheme;'
