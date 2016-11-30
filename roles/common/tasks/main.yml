@@ -54,3 +54,4 @@
     hour: "*/8"
     job: "/usr/sbin/ntpdate time.navy.mi.th >> /tmp/ntpdate.log 2>&1"
     cron_file: "auto-ntpdate"
+  notify: reload crontab
