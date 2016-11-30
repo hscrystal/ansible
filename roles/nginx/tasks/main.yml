@@ -6,7 +6,8 @@
 
 - name: Adding sources.list.d deb url for NGINX
   apt_repository: 
-    repo: deb http://nginx.org/packages/ubuntu/ trusty nginx 
+#    repo: deb http://nginx.org/packages/ubuntu/ trusty nginx
+    repo: deb http://nginx.org/packages/ubuntu/ xenial nginx
     state: present 
     filename: nginx 
     update_cache: yes
@@ -17,7 +18,6 @@
     state: present
     force: yes
     update_cache: yes
-  notify: restart nginx
 
 - name: Create file config proxy_params
   file:
@@ -33,3 +33,12 @@
     - 'proxy_set_header X-Real-IP $remote_addr;'
     - 'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;'
     - 'proxy_set_header X-Forwarded-Proto $scheme;'
+    - 'proxy_http_version 1.1;'
+
+- name: change client_max_body_size in main nginx.conf
+  lineinfile: 
+    dest: /etc/nginx/nginx.conf
+    regexp: '^\s*client_max_body_size' 
+    line: "client_max_body_size  500M;"
+    insertafter: "#gzip  on;"
+  notify: reload nginx

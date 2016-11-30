@@ -6,8 +6,10 @@
 
 - name: Adding sources.list.d deb url for Docker
   apt_repository:
-    repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
-    filename: nginx
+#    repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
+    repo: deb https://apt.dockerproject.org/repo ubuntu-xenial main
+    state: present
+    filename: docker
     update_cache: yes
 
 - name: Uninstall old Docker
