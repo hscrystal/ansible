@@ -1,0 +1,31 @@
+- name: add nginx signing key
+  apt_key: 
+    url: https://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: add nginx repository
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_lsb.codename|lower }} nginx"
+    filename: nginx
+    update_cache: yes
+
+- name: install nginx package
+  apt: name=nginx
+
+- name: add template nginx.conf
+  template:
+    src: nginx.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: add proxy_params config 
+  copy:
+    src: proxy_params
+    dest: /etc/nginx/proxy_params
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx

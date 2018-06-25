@@ -1,0 +1,11 @@
+- name: install ntpdate
+  apt: name=ntpdate state=present
+
+- name: create cron ntpdate
+  cron:
+    name: ntpdate
+    user: root
+    hour: "*/8"
+    job: "/usr/sbin/ntpdate time.navy.mi.th > /dev/null 2>&1"
+    cron_file: auto_ntpdate
+  notify: restart cron

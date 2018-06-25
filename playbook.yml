@@ -1,0 +1,6 @@
+- hosts: ubuntu
+  roles:
+   - ubuntu-common
+   - ubuntu-docker
+   - ubuntu-nginx
+   - ubuntu-zabbix-agent

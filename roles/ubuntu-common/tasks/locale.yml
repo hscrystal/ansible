@@ -1,0 +1,15 @@
+- name: set default locale
+  shell: update-locale --reset LC_ALL=en_US.UTF-8
+  args:
+    creates: /root/.localedone
+
+- name: generate locale
+  shell: locale-gen --purge en_US.UTF-8 && locale-gen th_TH.UTF-8
+  args:
+    creates: /root/.localedone
+
+- stat: path=/root/.localedone
+  register: s
+
+- name: locale done
+  file: path=/root/.localedone state={{ "file" if s.stat.exists else "touch"  }}

@@ -1,0 +1,27 @@
+- name: add zabbix signing key
+  apt_key: 
+    url: http://repo.zabbix.com/zabbix-official-repo.key
+    state: present
+
+- name: add zabbix repository
+  apt_repository:
+    repo: "deb http://repo.zabbix.com/zabbix/3.4/ubuntu/ {{ ansible_lsb.codename|lower }} main"
+    filename: zabbix
+    update_cache: yes
+
+- name: install zabbix-agent package
+  apt:
+    name: zabbix-agent
+
+- name: set server monitor in zabbix_agentd.conf
+  replace:
+    path: /etc/zabbix/zabbix_agentd.conf
+    regexp: 'Server=127.0.0.1'
+    replace: "Server={{ zabbix_server }}"
+
+- name: set hostname in zabbix_agentd.conf
+  replace:
+    path: /etc/zabbix/zabbix_agentd.conf
+    regexp: 'Hostname=Zabbix server'
+    replace: "Hostname={{ zabbix_hostname }}"
+  notify: restart zabbix-agent

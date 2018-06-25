@@ -1,9 +1,0 @@
----
-- hosts: Choco
-  sudo: true
-  roles:
-   - common
-   - nginx
-   - docker
-   - munin
-   - nodejs

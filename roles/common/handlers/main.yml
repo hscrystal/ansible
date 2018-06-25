@@ -1,4 +1,0 @@
-- name: reload crontab
-  service: 
-    name: cron
-    state: reloaded

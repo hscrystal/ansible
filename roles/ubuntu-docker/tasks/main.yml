@@ -1,0 +1,29 @@
+- name: add Docker repository key
+  apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename|lower }} stable"
+    update_cache: yes
+
+- name: install docker package
+  apt: name=docker-ce
+
+- name: config docker
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart docker
+
+- name: install python-pip package
+  apt: name=python-pip
+
+- name: install docker-compose package using pip
+  pip:
+    name: docker-compose
+    version: 1.21.2
