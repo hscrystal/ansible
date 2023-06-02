@@ -27,7 +27,7 @@ ansible-playbook -i ./inventories/<environment> playbook.yml
     sudo adduser ansible sudo
     sudo visudo
     # add follwing the at bottom
-    # ansible ALL=(ALL) NOPASSWD:ALL
+    ansible ALL=(ALL) NOPASSWD:ALL
     ```
     
 ### On the Control Machine
